@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import {AuthService} from "../../data/services/auth/auth.service";
-import {CommonModule} from "@angular/common";
 import {AppResponse} from "../../data/models/AppResponse";
 
 @Component({
@@ -12,12 +11,20 @@ import {AppResponse} from "../../data/models/AppResponse";
 export class AuthComponent {
 
   // component state variables
-  appResponse?: AppResponse = undefined
+  appResponse?: AppResponse
   isLogin: boolean = true
   isLoading: boolean = false
+
   loginForm: FormGroup = new FormGroup({
     email: new FormControl(''),
     password: new FormControl('')
+  })
+
+  registerForm: FormGroup = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+    confirm: new FormControl(''),
+    phone: new FormControl(''),
   })
 
   // services
@@ -28,31 +35,37 @@ export class AuthComponent {
 
   toggleAuthPage(): void {
     this.isLogin = !this.isLogin
+    this.appResponse = undefined
   }
 
   private toggleAuthLoading(): void {
     this.isLoading = !this.isLoading
   }
 
-  loginAccount(){
-    const email = this.loginForm.value.email ?? ''
-    const pass = this.loginForm.value.password ?? ''
+  success = (r: AppResponse) => this.appResponse = r
+  error = (err: any): void => {
+    this.appResponse = {
+      message: err.message,
+      body: err,
+      status: 500
+    }
+  }
+
+
+  async loginAccount(){
+    const { email, password } = this.loginForm.value
     this.toggleAuthLoading()
-    this.authService.logInAccount(email, pass)
-      .then(r => {
-        this.appResponse = r
-        console.log("response",r)
-        this.toggleAuthLoading()
-      })
-      .catch(err => {
-        this.appResponse = {
-          message: err.message,
-          body: err,
-          status: 500
-        }
-        console.log("error",err)
-        this.toggleAuthLoading()
-      })
+    await this.authService.logInAccount(email, password)
+      .then(this.success)
+      .catch(this.error)
+    this.toggleAuthLoading()
+  }
+
+  async registerAccount(){
+    const { email, password, confirm, phone } = this.registerForm.value
+    await this.authService.createAccount(email, password)
+      .then(this.success)
+      .catch(this.error)
   }
 
 }

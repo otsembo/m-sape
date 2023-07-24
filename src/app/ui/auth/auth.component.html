@@ -20,33 +20,35 @@
         <span class="text-teal-800 font-bold cursor-pointer" (click)="toggleAuthPage()">Sign Up</span></p>
     </form>
 
-    <form class="" *ngIf="!isLogin">
+    <form class="" *ngIf="!isLogin" [formGroup]="registerForm">
       <h1 class="font-mono font-bold text-5xl">Welcome to M-Sape</h1>
       <p class="mt-2 font-light text-gray-800 text-2xl">Hello there! Create your new account today</p>
 
       <label class="flex flex-row mt-16">Email *</label>
       <input placeholder="Add your email" type="text"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="email" required>
 
       <label class="flex flex-row mt-8">Phone *</label>
       <input placeholder="Enter your phone number" type="tel"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="phone" required>
 
       <label class="flex flex-row mt-8">Password *</label>
       <input placeholder="Create a new password" type="password"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="password" required>
 
       <label class="flex flex-row mt-8">Confirm Password *</label>
       <input placeholder="Confirm your new password" type="password"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="confirm" required>
 
-      <button class="mt-8 bg-teal-800 p-4 text-white rounded-lg w-full">CREATE ACCOUNT</button>
+      <button class="mt-8 bg-teal-800 p-4 text-white rounded-lg w-full" (click)="registerAccount()">CREATE ACCOUNT</button>
       <p class="mt-4 text-xl w-full text-center font-light">Already have an account?
         <span class="text-teal-800 font-bold cursor-pointer" (click)="toggleAuthPage()">Login</span></p>
     </form>
 
     <app-loader *ngIf="isLoading" class="mt-4"></app-loader>
-    <app-message *ngIf="appResponse" [response]="appResponse" [success]="appResponse?.status == 200"></app-message>
+    <app-message *ngIf="appResponse && !isLoading"
+                 [response]="appResponse"
+                 [success]="appResponse.status == 200"></app-message>
 
   </div>
 
