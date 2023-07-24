@@ -1,21 +1,21 @@
 <div class="flex flex-row columns-2 h-[90vh] items-center bg-[#f9f9f8]">
   <div class="flex flex-col w-1/2 items-center">
 
-    <form *ngIf="isLogin">
+    <form *ngIf="isLogin" [formGroup]="loginForm">
       <h1 class="font-mono font-bold text-5xl">Welcome back</h1>
       <p class="mt-2 font-light text-gray-800 text-2xl">Welcome back! Please enter your details</p>
 
       <label class="flex flex-row mt-16">Email</label>
       <input placeholder="Enter your email" type="text"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="email" required>
 
       <label class="flex flex-row mt-8">Password</label>
       <input placeholder="Enter password" type="password"
-             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" required>
+             class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="password" required>
 
       <p class="w-full justify-self-end mt-8 text-end">Forgot password</p>
 
-      <button class="mt-4 bg-teal-800 p-4 text-white rounded-lg w-full">Sign In</button>
+      <button class="mt-4 bg-teal-800 p-4 text-white rounded-lg w-full" (click)="loginAccount()">Sign In</button>
       <p class="mt-4 text-xl w-full text-center font-light">Don't have an account?
         <span class="text-teal-800 font-bold cursor-pointer" (click)="toggleAuthPage()">Sign Up</span></p>
     </form>
@@ -44,6 +44,9 @@
       <p class="mt-4 text-xl w-full text-center font-light">Already have an account?
         <span class="text-teal-800 font-bold cursor-pointer" (click)="toggleAuthPage()">Login</span></p>
     </form>
+
+    <app-loader *ngIf="isLoading" class="mt-4"></app-loader>
+    <app-message *ngIf="appResponse" [response]="appResponse" [success]="appResponse?.status == 200"></app-message>
 
   </div>
 

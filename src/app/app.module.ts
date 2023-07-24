@@ -7,18 +7,24 @@ import { NavbarComponent } from './ui/components/navbar/navbar.component';
 import { HomeComponent } from './ui/home/home.component';
 import {NgOptimizedImage} from "@angular/common";
 import { AuthComponent } from './ui/auth/auth.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { LoaderComponent } from './ui/components/loader/loader.component';
+import { MessageComponent } from './ui/components/message/message.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    AuthComponent
+    AuthComponent,
+    LoaderComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
