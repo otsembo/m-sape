@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './ui/components/navbar/navbar.component';
 import { HomeComponent } from './ui/home/home.component';
 import {NgOptimizedImage} from "@angular/common";
+import { AuthComponent } from './ui/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
