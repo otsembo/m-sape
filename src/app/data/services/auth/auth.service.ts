@@ -25,7 +25,7 @@ export class AuthService {
         })
         return {
           status: 200,
-          message: 'Success',
+          message: 'success',
           body: credential
         }
       }).catch((reason: any):AppResponse => {
@@ -42,7 +42,7 @@ export class AuthService {
       .then((credential: any): AppResponse => {
         return {
           status: 200,
-          message: 'Success',
+          message: 'success',
           body: credential
         }
       }).catch((reason: any):AppResponse => {

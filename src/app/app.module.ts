@@ -10,6 +10,7 @@ import { AuthComponent } from './ui/auth/auth.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { LoaderComponent } from './ui/components/loader/loader.component';
 import { MessageComponent } from './ui/components/message/message.component';
+import { DashboardComponent } from './ui/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MessageComponent } from './ui/components/message/message.component';
     HomeComponent,
     AuthComponent,
     LoaderComponent,
-    MessageComponent
+    MessageComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

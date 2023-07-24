@@ -3,7 +3,7 @@
   <div class="flex flex-col w-1/2 items-center">
 
     <form *ngIf="isLogin" [formGroup]="loginForm">
-      <h1 class="font-mono font-bold text-5xl">Welcome back</h1>
+      <h1 class="font-bold text-5xl">Welcome back</h1>
       <p class="mt-2 font-light text-gray-800 text-2xl">Welcome back! Please enter your details</p>
 
       <label class="flex flex-row mt-16">Email</label>
@@ -22,22 +22,22 @@
     </form>
 
     <form class="" *ngIf="!isLogin" [formGroup]="registerForm">
-      <h1 class="font-mono font-bold text-5xl">Welcome to M-Sape</h1>
+      <h1 class="font-bold text-5xl">Welcome to M-Sape</h1>
       <p class="mt-2 font-light text-gray-800 text-2xl">Hello there! Create your new account today</p>
 
-      <label class="flex flex-row mt-16">Email *</label>
+      <label class="flex flex-row mt-16">Email<h1 class="text-red-900 font-bold text-3xl">*</h1></label>
       <input placeholder="Add your email" type="text"
              class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="email" required>
 
-      <label class="flex flex-row mt-8">Phone *</label>
+      <label class="flex flex-row mt-8">Phone<h1 class="text-red-900 font-bold text-3xl">*</h1></label>
       <input placeholder="Enter your phone number" type="tel"
              class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="phone" required>
 
-      <label class="flex flex-row mt-8">Password *</label>
+      <label class="flex flex-row mt-8">Password<h1 class="text-red-900 font-bold text-3xl">*</h1></label>
       <input placeholder="Create a new password" type="password"
              class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="password" required>
 
-      <label class="flex flex-row mt-8">Confirm Password *</label>
+      <label class="flex flex-row mt-8">Confirm Password<h1 class="text-red-900 font-bold text-3xl">*</h1></label>
       <input placeholder="Confirm your new password" type="password"
              class="mt-2 border-2 rounded-lg border-gray-500 bg-white w-full p-4" formControlName="confirm" required>
 
@@ -55,6 +55,6 @@
 
   <div class="flex flex-col w-1/2 items-center content-center">
     <img ngSrc="assets/images/ic_mobile_transfer.png" height="512" width="512">
-    <h1 class="text-9xl font-extrabold text-center">M-SAPE</h1>
+    <h1 class="text-9xl font-bold text-center">M-SAPE</h1>
   </div>
 </div>
