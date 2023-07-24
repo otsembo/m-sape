@@ -63,9 +63,11 @@ export class AuthComponent {
 
   async registerAccount(){
     const { email, password, confirm, phone } = this.registerForm.value
-    await this.authService.createAccount(email, password)
+    this.toggleAuthLoading()
+    await this.authService.createAccount(email, password, email, phone)
       .then(this.success)
       .catch(this.error)
+    this.toggleAuthLoading()
   }
 
 }
