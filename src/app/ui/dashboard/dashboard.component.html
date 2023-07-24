@@ -1,1 +1,34 @@
-<p>dashboard works!</p>
+<div class="w-full flex flex-row h-[98vh]">
+  <div class="flex flex-col w-1/4 h-full bg-teal-800 p-[2vh] m-2 rounded-3xl">
+
+    <img ngSrc="assets/images/ic_grid.png" class="mx-4 mt-16" height="96" width="96"/>
+
+    <!--banner header-->
+    <div class="bg-teal-600 flex flex-row px-8 mx-4 py-4 rounded-xl mt-4 items-center shadow-xl">
+      <img width="96" height="96" src="https://images.pexels.com/photos/1432238/pexels-photo-1432238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+           alt="businesswoman" class="shadow w-[96px] h-[96px] rounded-full max-w-full align-middle border-2 border-white object-cover"/>
+      <div class="flex flex-col h-full ml-4 align-middle justify-center">
+        <h1 class="text-gray-100 text-2xl font-bold">user@mail.com</h1>
+        <h2 class="text-gray-200 text-lg font-light">+254712345678</h2>
+      </div>
+    </div>
+
+    <div class="mt-8"></div>
+    <app-dashboard-menu-item
+      [selected]="true" title="Home" icon="https://img.icons8.com/material/96/FFFFFF/home-page.png">
+    </app-dashboard-menu-item>
+
+    <app-dashboard-menu-item
+      [selected]="false" title="Transactions" icon="https://img.icons8.com/material/96/FFFFFF/payment-history.png">
+    </app-dashboard-menu-item>
+
+    <app-dashboard-menu-item
+      [selected]="false" title="Notifications" icon="https://img.icons8.com/material/96/FFFFFF/bell--v1.png">
+    </app-dashboard-menu-item>
+
+    <app-dashboard-menu-item
+      [selected]="false" title="Logout" icon="https://img.icons8.com/material/96/FFFFFF/exit.png">
+    </app-dashboard-menu-item>
+
+  </div>
+</div>

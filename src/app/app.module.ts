@@ -11,6 +11,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { LoaderComponent } from './ui/components/loader/loader.component';
 import { MessageComponent } from './ui/components/message/message.component';
 import { DashboardComponent } from './ui/dashboard/dashboard.component';
+import { DashboardNavComponent } from './ui/components/dashboard-nav/dashboard-nav.component';
+import { DashboardMenuItemComponent } from './ui/components/dashboard-menu-item/dashboard-menu-item.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { DashboardComponent } from './ui/dashboard/dashboard.component';
     AuthComponent,
     LoaderComponent,
     MessageComponent,
-    DashboardComponent
+    DashboardComponent,
+    DashboardNavComponent,
+    DashboardMenuItemComponent
   ],
   imports: [
     BrowserModule,
