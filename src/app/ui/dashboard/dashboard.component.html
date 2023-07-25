@@ -1,5 +1,6 @@
-<div class="w-full flex flex-row h-[98vh]">
-  <div class="flex flex-col w-1/4 h-full bg-teal-800 p-[2vh] m-2 rounded-3xl">
+<div class="w-full flex flex-row h-[98vh] bg-[#f9f9f8]">
+
+  <div class="flex flex-col w-1/4 h-full bg-teal-800 p-[2vh] m-2 rounded-2xl shadow-2xl">
 
     <img ngSrc="assets/images/ic_grid.png" class="mx-4 mt-16" height="96" width="96"/>
 
@@ -15,20 +16,77 @@
 
     <div class="mt-8"></div>
     <app-dashboard-menu-item
-      [selected]="true" title="Home" icon="https://img.icons8.com/material/96/FFFFFF/home-page.png">
+      [selected]="selectedItem == 1" title="Home" icon="https://img.icons8.com/material/96/FFFFFF/home-page.png"
+      (click)="toggleSelection(1)">
     </app-dashboard-menu-item>
 
     <app-dashboard-menu-item
-      [selected]="false" title="Transactions" icon="https://img.icons8.com/material/96/FFFFFF/payment-history.png">
+      [selected]="selectedItem == 2" title="Transactions" icon="https://img.icons8.com/material/96/FFFFFF/payment-history.png"
+      (click)="toggleSelection(2)">
     </app-dashboard-menu-item>
 
     <app-dashboard-menu-item
-      [selected]="false" title="Notifications" icon="https://img.icons8.com/material/96/FFFFFF/bell--v1.png">
+      [selected]="selectedItem == 3" title="Notifications" icon="https://img.icons8.com/material/96/FFFFFF/bell--v1.png"
+      (click)="toggleSelection(3)">
     </app-dashboard-menu-item>
 
     <app-dashboard-menu-item
-      [selected]="false" title="Logout" icon="https://img.icons8.com/material/96/FFFFFF/exit.png">
+      [selected]="selectedItem == 4" title="Logout" icon="https://img.icons8.com/material/96/FFFFFF/exit.png"
+      (click)="toggleSelection(4)">
     </app-dashboard-menu-item>
+
+    <div class="flex flex-row justify-start mx-4 mt-32 cursor-pointer">
+
+      <div class="bg-teal-600 px-6 py-5 rounded-lg border-2 border-dashed mx-2 shadow-lg">
+        <span class="material-icons text-4xl text-white">add</span>
+      </div>
+
+      <div class="mx-2 h-full flex flex-col justify-center py-2">
+        <h1 class="text-gray-100 text-xl font-bold">Add new transaction</h1>
+        <h2 class="text-gray-200 text-lg font-light">transfer, receive, topup</h2>
+      </div>
+
+    </div>
 
   </div>
+
+  <div class="flex flex-col w-3/4 h-full m-2 p-[2vh]">
+    <app-dashboard-nav></app-dashboard-nav>
+    <div class="justify-between flex flex-row mt-16 items-center">
+      <p class="text-gray-800 text-6xl font-bold">Overview</p>
+      <div class="flex flex-row items-center">
+        <div class="rounded-full bg-green-600 w-2 h-2 mx-4"></div>
+        <p class="text-gray-600 text-xl font-medium">Updated 5 mins ago</p>
+      </div>
+    </div>
+
+    <div class="flex flex-row w-full mt-16">
+
+      <div class="flex flex-col w-1/2 p-2">
+        <p class="text-gray-600 text-2xl font-medium">Today's Balance</p>
+        <p class="text-gray-800 text-7xl font-bold mt-4">Ksh. 123,456</p>
+        <div class="flex flex-row justify-start mt-8">
+          <button class="bg-teal-800 p-6 rounded-xl w-1/2 font-bold text-white text-2xl">
+            TopUp Account
+          </button>
+          <button class="bg-gray-400 mx-2 p-6 rounded-xl w-1/2 font-bold text-white text-2xl">
+            Withdraw Funds
+          </button>
+        </div>
+
+        <h1 class="text-black font-bold mt-16 text-3xl">All Transactions</h1>
+        <p class="font-medium text-xl text-gray-500 mt-2">Recent transactions</p>
+
+        <div class="mt-8">
+          <app-transaction [transaction]="sampleTransaction"></app-transaction>
+          <app-transaction [transaction]="sampleTransaction2"></app-transaction>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
 </div>

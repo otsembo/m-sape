@@ -13,6 +13,7 @@ import { MessageComponent } from './ui/components/message/message.component';
 import { DashboardComponent } from './ui/dashboard/dashboard.component';
 import { DashboardNavComponent } from './ui/components/dashboard-nav/dashboard-nav.component';
 import { DashboardMenuItemComponent } from './ui/components/dashboard-menu-item/dashboard-menu-item.component';
+import { TransactionComponent } from './ui/components/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DashboardMenuItemComponent } from './ui/components/dashboard-menu-item/
     MessageComponent,
     DashboardComponent,
     DashboardNavComponent,
-    DashboardMenuItemComponent
+    DashboardMenuItemComponent,
+    TransactionComponent
   ],
   imports: [
     BrowserModule,
