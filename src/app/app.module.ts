@@ -15,6 +15,7 @@ import { DashboardNavComponent } from './ui/components/dashboard-nav/dashboard-n
 import { DashboardMenuItemComponent } from './ui/components/dashboard-menu-item/dashboard-menu-item.component';
 import { TransactionComponent } from './ui/components/transaction/transaction.component';
 import { NotificationComponent } from './ui/components/notification/notification.component';
+import { FormErrorComponent } from './ui/components/form-error/form-error.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NotificationComponent } from './ui/components/notification/notification
     DashboardNavComponent,
     DashboardMenuItemComponent,
     TransactionComponent,
-    NotificationComponent
+    NotificationComponent,
+    FormErrorComponent
   ],
   imports: [
     BrowserModule,
