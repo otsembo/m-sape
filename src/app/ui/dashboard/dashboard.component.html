@@ -51,7 +51,7 @@
   </div>
 
   <div class="flex flex-col w-3/4 h-full m-2 p-[2vh]">
-    <app-dashboard-nav [email]="user?.email"></app-dashboard-nav>
+    <app-dashboard-nav [email]="user?.email" [toggleSendMoney]="toggleSendMoney"></app-dashboard-nav>
     <div class="justify-between flex flex-row mt-16 items-center">
       <p class="text-gray-800 text-6xl font-bold">Overview</p>
       <div class="flex flex-row items-center">
@@ -64,9 +64,10 @@
 
       <div class="flex flex-col w-1/2 p-2">
         <p class="text-gray-600 text-2xl font-medium">Today's Balance</p>
-        <p class="text-gray-800 text-7xl font-bold mt-4">Ksh. 123,456</p>
+        <app-loader *ngIf="!accountBalance?.toLocaleString()"></app-loader>
+        <p class="text-gray-800 text-7xl font-bold mt-4" *ngIf="accountBalance?.toLocaleString()">Ksh. {{accountBalance?.toLocaleString()}}</p>
         <div class="flex flex-row justify-start mt-8">
-          <button class="bg-teal-800 p-6 rounded-xl w-1/2 font-bold text-white text-2xl">
+          <button class="bg-teal-800 p-6 rounded-xl w-1/2 font-bold text-white text-2xl" (click)="toggleTopUp()">
             TopUp Account
           </button>
           <button class="bg-gray-400 mx-2 p-6 rounded-xl w-1/2 font-bold text-white text-2xl">
@@ -140,34 +141,32 @@
 
   </div>
 
-  <div class="hidden overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex p-4">
+  <div class="{{!topUpShown ? 'hidden' : 'flex'}} overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center p-4">
     <div class="relative w-auto my-6 mx-auto max-w-6xl">
       <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-        <form class="p-8 flex flex-col">
+        <form class="p-8 flex flex-col" (submit)="updateAccountBalance($event)">
           <h1 class="text-4xl font-bold">TopUp Account</h1>
 
           <label class="text-2xl font-medium mt-4 flex">Amount</label>
-          <input type="number" placeholder="Amount in Ksh." class="border-gray-600 border-2 rounded-lg p-2">
+          <input type="number" placeholder="Amount in Ksh." class="border-gray-600 border-2 rounded-lg p-2" #topUp (keyup)="onTopUp(topUp.value)">
 
           <button class="flex mt-4 p-2 bg-teal-800 text-white font-bold text-xl justify-center items-center rounded-lg">
             <span class="material-icons mr-2">add</span> ADD
           </button>
 
-          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg" (click)="toggleTopUp()">
             <span class="material-icons mr-2">close</span>CANCEL
           </button>
 
-          <div class="mt-4 flex flex-row justify-center">
-            <app-loader></app-loader>
-            <app-message></app-message>
-          </div>
-
         </form>
+      </div>
+      <div *ngIf="topUpLoading" class="mt-4 flex flex-row w-full justify-center items-center p-3">
+        <app-loader></app-loader>
       </div>
     </div>
   </div>
 
-  <div class="hidden overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex p-4">
+  <div class="{{!sendMoneyShown ? 'hidden' : 'flex'}} overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center p-4">
     <div class="relative w-auto my-6 mx-auto max-w-6xl">
       <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <form class="p-8 flex flex-col">
@@ -183,7 +182,7 @@
             <span class="material-icons mr-2">send</span> SEND
           </button>
 
-          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg" (click)="toggleSendMoney()">
             <span class="material-icons mr-2">close</span>CANCEL
           </button>
 

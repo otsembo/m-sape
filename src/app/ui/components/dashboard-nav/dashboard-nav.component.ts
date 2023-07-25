@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class DashboardNavComponent {
   @Input() email?: string
+  @Input() toggleSendMoney?: () => void
 }

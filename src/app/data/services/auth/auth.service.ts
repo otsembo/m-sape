@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import firebase from '../../../../utils/firebase'
 import { AppResponse } from "../../models/AppResponse";
-import {createAccount} from "../../firebase/app_db";
+import {createAccount, createBankAccount} from "../../firebase/app_db";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,7 @@ export class AuthService {
           uid: credential.user.uid,
           phone: phone
         })
+        await createBankAccount(credential.user.uid)
         return {
           status: 200,
           message: 'success',

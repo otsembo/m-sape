@@ -3,8 +3,9 @@ import {Transaction} from "../../data/models/transaction";
 import {getUser, removeUser} from "../../../utils/auth";
 import {Router} from "@angular/router";
 import {delay, logout} from "../../../utils/app";
-import {userSnapshot} from "../../data/firebase/app_db";
+import {userAccountSnapshot, userSnapshot} from "../../data/firebase/app_db";
 import {User} from "../../data/models/User";
+import {AccountService} from "../../data/services/account/account.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,16 @@ import {User} from "../../data/models/User";
 export class DashboardComponent {
   selectedItem: number = 1
   user?: User = undefined
+  accountBalance?: number = undefined
+
+  topUpShown: boolean = false
+  topUpLoading: boolean = false
+  topUpAmount: number|null = null
+
+  sendMoneyShown: boolean = false
+  sendMoneyLoading: boolean = false
+  sendMoneyAmount: number = 0.0
+
 
   async toggleSelection(item: number): Promise<void> {
     this.selectedItem = item;
@@ -38,7 +49,7 @@ export class DashboardComponent {
     date: new Date()
   }
 
-  constructor(private router: Router,) {
+  constructor(private router: Router, private accountService: AccountService) {
     if(!getUser()){
       logout(this.router).then(_ => {});
     }
@@ -58,7 +69,31 @@ export class DashboardComponent {
             phone: userSnap["phone"]
           };
         }
-      })
+      });
+
+    userAccountSnapshot(getUser()!!)
+      .then(snap => {
+        if (snap.exists()){
+          let userSnap = snap.data()
+          this.accountBalance = userSnap["balance"]
+        }
+      });
+
+  }
+
+  toggleTopUp = () => this.topUpShown = !this.topUpShown
+  toggleSendMoney = () => this.sendMoneyShown =!this.sendMoneyShown
+
+  onTopUp = (amount: string) => this.topUpAmount = parseFloat(amount)
+
+  updateAccountBalance = async (e: SubmitEvent) => {
+    e.preventDefault()
+    this.topUpLoading = true
+    await this.accountService.updateBalance(this.topUpAmount!!)
+    await delay()
+    this.fetchUserData()
+    this.topUpLoading = false
+    this.toggleTopUp()
   }
 
 }
