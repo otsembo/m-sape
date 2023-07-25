@@ -140,4 +140,61 @@
 
   </div>
 
+  <div class="hidden overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex p-4">
+    <div class="relative w-auto my-6 mx-auto max-w-6xl">
+      <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <form class="p-8 flex flex-col">
+          <h1 class="text-4xl font-bold">TopUp Account</h1>
+
+          <label class="text-2xl font-medium mt-4 flex">Amount</label>
+          <input type="number" placeholder="Amount in Ksh." class="border-gray-600 border-2 rounded-lg p-2">
+
+          <button class="flex mt-4 p-2 bg-teal-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+            <span class="material-icons mr-2">add</span> ADD
+          </button>
+
+          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+            <span class="material-icons mr-2">close</span>CANCEL
+          </button>
+
+          <div class="mt-4 flex flex-row justify-center">
+            <app-loader></app-loader>
+            <app-message></app-message>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex p-4">
+    <div class="relative w-auto my-6 mx-auto max-w-6xl">
+      <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+        <form class="p-8 flex flex-col">
+          <h1 class="text-4xl font-bold">Send Money</h1>
+
+          <label class="text-2xl font-medium mt-4 flex">Amount</label>
+          <input type="number" placeholder="Amount in Ksh." class="border-gray-600 border-2 rounded-lg p-2">
+
+          <label class="text-2xl font-medium mt-4 flex">Phone (+254xxx)</label>
+          <input type="number" placeholder="Phone number" class="border-gray-600 border-2 rounded-lg p-2">
+
+          <button class="flex mt-4 p-2 bg-teal-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+            <span class="material-icons mr-2">send</span> SEND
+          </button>
+
+          <button class="flex mt-2 p-2 bg-red-800 text-white font-bold text-xl justify-center items-center rounded-lg">
+            <span class="material-icons mr-2">close</span>CANCEL
+          </button>
+
+          <div class="mt-4 flex flex-row justify-center">
+            <!--<app-loader></app-loader>
+            <app-message></app-message>-->
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
 </div>
