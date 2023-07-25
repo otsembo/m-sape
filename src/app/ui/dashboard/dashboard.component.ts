@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {Transaction} from "../../data/models/transaction";
-import {getUser} from "../../../utils/auth";
+import {getUser, removeUser} from "../../../utils/auth";
 import {Router} from "@angular/router";
+import {delay, logout} from "../../../utils/app";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,12 @@ import {Router} from "@angular/router";
 })
 export class DashboardComponent {
   selectedItem: number = 1
-  toggleSelection(item: number): void { this.selectedItem = item; }
+  async toggleSelection(item: number): Promise<void> {
+    this.selectedItem = item;
+    await delay();
+    removeUser();
+    await logout(this.router)
+  }
 
   sampleTransaction: Transaction = {
     from: "bingo@mail.com",
@@ -29,7 +35,7 @@ export class DashboardComponent {
 
   constructor(private router: Router,) {
     if(!getUser()){
-      this.router.navigate(['/auth']).then(_r => null)
+      logout(this.router).then(_ => {});
     }
   }
 

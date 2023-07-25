@@ -4,6 +4,7 @@ import {AuthService} from "../../data/services/auth/auth.service";
 import {AppResponse} from "../../data/models/AppResponse";
 import {Router} from "@angular/router";
 import {getUser, saveUser} from "../../../utils/auth";
+import {delay} from "../../../utils/app";
 
 @Component({
   selector: 'app-auth',
@@ -81,7 +82,7 @@ export class AuthComponent {
   }
 
   private async navigateToDashboard(){
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await delay()
     await this.router.navigate(["dashboard"])
   }
 
