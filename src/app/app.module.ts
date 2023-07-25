@@ -16,6 +16,7 @@ import { DashboardMenuItemComponent } from './ui/components/dashboard-menu-item/
 import { TransactionComponent } from './ui/components/transaction/transaction.component';
 import { NotificationComponent } from './ui/components/notification/notification.component';
 import { FormErrorComponent } from './ui/components/form-error/form-error.component';
+import { EmailFormatterDirective } from './directives/email-formatter.directive';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FormErrorComponent } from './ui/components/form-error/form-error.compon
     DashboardMenuItemComponent,
     TransactionComponent,
     NotificationComponent,
-    FormErrorComponent
+    FormErrorComponent,
+    EmailFormatterDirective
   ],
   imports: [
     BrowserModule,

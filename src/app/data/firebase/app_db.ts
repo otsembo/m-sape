@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore"
+import { doc, setDoc, getDoc } from "firebase/firestore"
 import firebase from "../../../utils/firebase";
 import {User} from "../models/User";
 
@@ -13,3 +13,6 @@ export const createAccount = async (user: User)=> {
   });
 }
 
+// user
+const userRef = (uid: string) => doc(firebase.db, "users", uid);
+export const userSnapshot  = async (uid: string) => await getDoc(userRef(uid));

@@ -9,8 +9,8 @@
       <img width="96" height="96" src="https://images.pexels.com/photos/1432238/pexels-photo-1432238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
            alt="businesswoman" class="shadow w-[96px] h-[96px] rounded-full max-w-full align-middle border-2 border-white object-cover"/>
       <div class="flex flex-col h-full ml-4 align-middle justify-center">
-        <h1 class="text-gray-100 text-2xl font-bold">user@mail.com</h1>
-        <h2 class="text-gray-200 text-lg font-light">+254712345678</h2>
+        <h1 class="text-gray-100 text-2xl font-bold" formatEmail>{{user?.email ? user?.email?.substring(0, 15) + '...' : 'loading ...'}}</h1>
+        <h2 class="text-gray-200 text-lg font-light">{{user?.phone}}</h2>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
   </div>
 
   <div class="flex flex-col w-3/4 h-full m-2 p-[2vh]">
-    <app-dashboard-nav></app-dashboard-nav>
+    <app-dashboard-nav [email]="user?.email"></app-dashboard-nav>
     <div class="justify-between flex flex-row mt-16 items-center">
       <p class="text-gray-800 text-6xl font-bold">Overview</p>
       <div class="flex flex-row items-center">
