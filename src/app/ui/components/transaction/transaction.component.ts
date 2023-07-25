@@ -8,4 +8,8 @@ import {Transaction} from "../../../data/models/transaction";
 })
 export class TransactionComponent {
   @Input() transaction?: Transaction;
+  isNegative?: boolean = this.transaction?.from == this.transaction?.partyA;
+  constructor() {
+    console.log("Transaction", this.isNegative)
+  }
 }
