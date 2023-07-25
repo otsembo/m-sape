@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../data/services/auth/auth.service";
 import {AppResponse} from "../../data/models/AppResponse";
 import {Router} from "@angular/router";
+import {getUser, saveUser} from "../../../utils/auth";
 
 @Component({
   selector: 'app-auth',
@@ -49,6 +50,9 @@ export class AuthComponent {
   authService: AuthService
   constructor(authService: AuthService, private router: Router) {
     this.authService = authService
+    if(getUser()){
+      this.router.navigate(['/dashboard']).then(_r => null)
+    }
   }
 
   toggleAuthPage(): void {
@@ -60,10 +64,13 @@ export class AuthComponent {
     this.isLoading = !this.isLoading
   }
 
-  success = (r: AppResponse) => {
+  success = async (r: AppResponse) => {
     this.appResponse = r
-    r.message == "success" ? this.navigateToDashboard() : null
-
+    const success = r.message.toLowerCase().trim() === "success"
+    if(success){
+      saveUser(r.body.user.uid)
+       await this.navigateToDashboard()
+    }
   }
   error = (err: any): void => {
     this.appResponse = {

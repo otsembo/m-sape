@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {Transaction} from "../../data/models/transaction";
+import {getUser} from "../../../utils/auth";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +11,7 @@ import {Transaction} from "../../data/models/transaction";
 export class DashboardComponent {
   selectedItem: number = 1
   toggleSelection(item: number): void { this.selectedItem = item; }
+
   sampleTransaction: Transaction = {
     from: "bingo@mail.com",
     partyA: "bingo@mail.com",
@@ -23,4 +26,11 @@ export class DashboardComponent {
     amount: 290890,
     date: new Date()
   }
+
+  constructor(private router: Router,) {
+    if(!getUser()){
+      this.router.navigate(['/auth']).then(_r => null)
+    }
+  }
+
 }
