@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Transaction, TransactionType} from "../../data/models/transaction";
 import {getUser, removeUser} from "../../../utils/auth";
 import {Router} from "@angular/router";
-import {delay, logout} from "../../../utils/app";
+import {appError, delay, logout} from "../../../utils/app";
 import {userAccountSnapshot, userSnapshot} from "../../data/firebase/app_db";
 import {User} from "../../data/models/User";
 import {AccountService} from "../../data/services/account/account.service";
@@ -17,20 +17,34 @@ export class DashboardComponent {
   selectedItem: number = 1
   user?: User = undefined
   accountBalance?: number = undefined
+  commonErrors: { min: AppResponse, max: AppResponse, balance: AppResponse} = {
+    min: {
+      ...appError,
+      body: 'You can not transact less than Ksh. 5'
+    },
+    max: {
+      ...appError,
+      body: 'You can not transact more than Ksh. 100,000'
+    },
+    balance: {
+      ...appError,
+      body: 'You do not have sufficient balance'
+    },
+  }
 
   topUpShown: boolean = false
   topUpLoading: boolean = false
   topUpAmount: number|null = null
   topUpLatest: number = 0
   topUpLatestBalance: number = 0
-  topUpError?: string = undefined
+  topUpError?: AppResponse = undefined
 
   withdrawShown: boolean = false
   withdrawLoading: boolean = false
   withdrawAmount: number|null = null
   withdrawLatest: number = 0
   withdrawLatestBalance: number = 0
-  withdrawError?: string = undefined
+  withdrawError?: AppResponse = undefined
 
   sendMoneyShown: boolean = false
   sendMoneyLoading: boolean = false
@@ -124,6 +138,22 @@ export class DashboardComponent {
   topUpAccount = async (e: SubmitEvent) => {
     e.preventDefault()
     this.topUpLoading = true
+    const stopLoading = () => {
+      this.topUpLoading = false
+    }
+
+    if(this.topUpAmount!! < 5){
+      this.topUpError = this.commonErrors.min
+      stopLoading()
+      return
+    }
+
+    if(this.topUpAmount!! > 100000){
+      this.topUpError = this.commonErrors.max
+      stopLoading()
+      return
+    }
+
     await this.accountService.updateBalance(this.topUpAmount!!)
     await delay()
     this.fetchUserData()
@@ -134,6 +164,26 @@ export class DashboardComponent {
   withdrawAccount = async (e: SubmitEvent) => {
     e.preventDefault()
     this.withdrawLoading = true
+    const stopLoading = () => {
+      this.withdrawLoading = false
+    }
+    if(this.withdrawAmount!! < 5){
+      this.withdrawError = this.commonErrors.min
+      stopLoading()
+      return
+    }
+
+    if(this.withdrawAmount!! > 100000){
+      this.withdrawError = this.commonErrors.max
+      stopLoading()
+      return
+    }
+
+    if (this.withdrawAmount!! > (this.accountBalance ?? 0)){
+      this.withdrawError = this.commonErrors.balance
+      stopLoading()
+      return
+    }
     await this.accountService.withdrawBalance(this.withdrawAmount!!)
     await delay()
     this.fetchUserData()
@@ -143,8 +193,30 @@ export class DashboardComponent {
 
   sendMoney = async (e: SubmitEvent) => {
     e.preventDefault()
-    console.log(this.sendMoneyRecipient, this.sendMoneyAmount)
+    const stopLoading = () => {
+      this.sendMoneyLoading = false
+    }
+
     this.sendMoneyLoading = true
+
+    if(this.sendMoneyAmount < 5){
+      this.sendMoneyError = this.commonErrors.min
+      stopLoading()
+      return
+    }
+
+    if(this.sendMoneyAmount > 100000){
+      this.sendMoneyError = this.commonErrors.max
+      stopLoading()
+      return
+    }
+
+    if (this.sendMoneyAmount > (this.accountBalance ?? 0)){
+      this.sendMoneyError = this.commonErrors.balance
+      stopLoading()
+      return
+    }
+
     await this.accountService
       .sendMoney(this.sendMoneyAmount, this.sendMoneyRecipient)
         .then(() => {
@@ -159,12 +231,10 @@ export class DashboardComponent {
             status: 500,
             message: 'failed',
             body: reason
-          }
-          console.log(reason)
-        });
-
-
+          }}
+        );
   }
+
 
 
 }

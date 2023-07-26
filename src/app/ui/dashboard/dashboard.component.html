@@ -159,8 +159,9 @@
             <span class="material-icons mr-2">close</span>CANCEL
         </button>
       </div>
-      <div *ngIf="topUpLoading" class="mt-4 flex flex-row w-full justify-center items-center p-3">
-        <app-loader></app-loader>
+      <div class="flex flex-row justify-center w-full mt-4">
+        <app-loader *ngIf="topUpLoading"></app-loader>
+        <app-message *ngIf="!topUpLoading && topUpError" [response]="topUpError" [success]="false"></app-message>
       </div>
     </div>
   </div>
@@ -185,8 +186,9 @@
         </button>
 
       </div>
-      <div *ngIf="withdrawLoading" class="mt-4 flex flex-row w-full justify-center items-center p-3">
-        <app-loader></app-loader>
+      <div class="flex flex-row justify-center w-full mt-4">
+        <app-loader *ngIf="withdrawLoading"></app-loader>
+        <app-message *ngIf="!withdrawLoading && withdrawError" [response]="withdrawError" [success]="false"></app-message>
       </div>
     </div>
   </div>

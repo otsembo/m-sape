@@ -2,6 +2,7 @@ import { collection, doc, setDoc, getDoc, getDocs, addDoc, query, where, orderBy
 import firebase from "../../../utils/firebase";
 import {User} from "../models/User";
 import {Transaction, TransactionType} from "../models/transaction";
+import {getUser} from "../../../utils/auth";
 
 // auth
 export const createAccount = async (user: User)=> {
@@ -111,10 +112,53 @@ export const fetchLatestAccountTransaction = async (uid: string, type: Transacti
   return await getDocs(fetchQuery)
 }
 
-export async function sendMoneyToUser(s: string, sendMoneyAmount: number, email: string) {
-  const x = await findEmail(email)
-  if(x.docs.length == 0) {
+export async function sendMoneyToUser(uid: string, sendMoneyAmount: number, email: string) {
+  const partyB = await findEmail(email)
+  const partyA= await userAccountSnapshot(uid)
+  const partyBAccount = await userAccountSnapshot(partyB.docs[0].data()?.["uid"])
+  if(partyB.docs.length == 0) {
     throw new Error(`You cannot send money to ${email}! Please try again with a different email`)
   }
+
+  const sendAmount = parseFloat(String(sendMoneyAmount))
+
+  // deduct amount
+  await setDoc(userAccountRef(uid), {
+    balance: partyA.data()?.["balance"] - sendAmount,
+    createdAt: partyA.data()?.["createdAt"]?? Date(),
+    updatedAt: Date(),
+    uid: uid,
+  })
+
+  // add transaction
+  await addNewTransaction({
+    from: uid,
+    partyA: uid,
+    partyB: partyB.docs[0].data()?.["uid"],
+    amount: sendAmount,
+    date: new Date(),
+    type: TransactionType.TRANSFER,
+    balance: partyA.data()?.["balance"] - sendAmount,
+  }, uid)
+
+  // add amount
+  await setDoc(userAccountRef(partyB.docs[0].data()?.["uid"]), {
+    balance: partyBAccount.data()?.["balance"] + sendAmount,
+    createdAt: partyB.docs[0].data()?.["createdAt"]?? Date(),
+    updatedAt: Date(),
+    uid: partyB.docs[0].data()?.["uid"],
+  })
+
+  // add transaction
+  await addNewTransaction({
+    from: uid,
+    partyA: partyB.docs[0].data()?.["uid"],
+    partyB: uid,
+    amount: sendAmount,
+    date: new Date(),
+    type: TransactionType.RECEIVE,
+    balance: partyBAccount.data()?.["balance"] + sendAmount
+  }, partyB.docs[0].data()?.["uid"]!!)
+
   return Promise.resolve(undefined);
 }
