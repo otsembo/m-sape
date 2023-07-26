@@ -45,12 +45,31 @@ export const topUpAccount = async (uid: string, amount: number) => {
     partyB: data.data()?.["email"] ?? uid,
     amount: amount,
     date: new Date(),
-    type: TransactionType.DEPOSIT
+    type: TransactionType.DEPOSIT,
+    balance: (data.data()?.["balance"] + amount) ?? amount
   }, uid)
 }
 
+export const withdrawAccount = async (uid: string, amount: number) => {
+  const data = await getDoc(userAccountRef(uid));
+  await setDoc(userAccountRef(uid), {
+    balance: data.data()?.["balance"] - amount,
+    createdAt: data.data()?.["createdAt"]?? Date(),
+    updatedAt: Date(),
+    uid: uid,
+  })
+  await addNewTransaction({
+    from: data.data()?.["email"]?? uid,
+    partyA: data.data()?.["email"]?? uid,
+    partyB: data.data()?.["email"]?? uid,
+    amount: amount,
+    date: new Date(),
+    type: TransactionType.WITHDRAW,
+    balance: (data.data()?.["balance"] - amount)?? amount
+  }, uid)
+}
 
-export const addNewTransaction = async (transaction: Transaction, uid: string) => {
+export const addNewTransaction = async (transaction: any, uid: string) => {
   await addDoc(collection(firebase.db, "transactions"), {
     ...transaction,
     uid: uid
@@ -64,6 +83,30 @@ export const fetchLatestTopUp = async (uid: string) => {
       transactionRefs,
       where("uid", "==", uid),
       where("type", "==", TransactionType.DEPOSIT),
+      orderBy("date", "desc"),
+      limit(1)
+    );
+  return await getDocs(fetchQuery)
+}
+
+export const fetchLatestAccountTransaction = async (uid: string, type: TransactionType) => {
+  let fetchQuery =
+    query(
+      transactionRefs,
+      where("uid", "==", uid),
+      where("type", "==", type),
+      orderBy("date", "desc"),
+      limit(1)
+    );
+  return await getDocs(fetchQuery)
+}
+
+export const fetchLatestWithdraw = async (uid: string) => {
+  let fetchQuery =
+    query(
+      transactionRefs,
+      where("uid", "==", uid),
+      where("type", "==", TransactionType.WITHDRAW),
       orderBy("date", "desc"),
       limit(1)
     );

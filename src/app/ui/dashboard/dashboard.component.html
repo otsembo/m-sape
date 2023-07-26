@@ -101,8 +101,8 @@
           </div>
 
           <div class="flex flex-col py-1 justify-center">
-            <p>Balance</p>
-            <p class="text-2xl font-bold">Ksh. 270,156</p>
+            <p>Balance after topup</p>
+            <p class="text-2xl font-bold">Ksh. {{topUpLatestBalance.toLocaleString()}}</p>
           </div>
 
         </div>
@@ -115,14 +115,14 @@
             </div>
 
             <div class="flex flex-col py-1 justify-between mx-4">
-              <p>Latest Payable</p>
-              <p class="text-4xl font-bold">Ksh. 3,500</p>
+              <p>Latest Withdrawal</p>
+              <p class="text-4xl font-bold">Ksh. {{withdrawLatest.toLocaleString()}}</p>
             </div>
           </div>
 
           <div class="flex flex-col py-1 justify-center">
-            <p>Balance</p>
-            <p class="text-2xl font-bold">Ksh. 270,156</p>
+            <p>Balance after withdrawal</p>
+            <p class="text-2xl font-bold">Ksh. {{withdrawLatestBalance.toLocaleString()}}</p>
           </div>
 
         </div>

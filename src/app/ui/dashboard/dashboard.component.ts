@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Transaction} from "../../data/models/transaction";
+import {Component} from '@angular/core';
+import {Transaction, TransactionType} from "../../data/models/transaction";
 import {getUser, removeUser} from "../../../utils/auth";
 import {Router} from "@angular/router";
 import {delay, logout} from "../../../utils/app";
@@ -21,10 +21,13 @@ export class DashboardComponent {
   topUpLoading: boolean = false
   topUpAmount: number|null = null
   topUpLatest: number = 0
+  topUpLatestBalance: number = 0
 
   withdrawShown: boolean = false
   withdrawLoading: boolean = false
   withdrawAmount: number|null = null
+  withdrawLatest: number = 0
+  withdrawLatestBalance: number = 0
 
   sendMoneyShown: boolean = false
   sendMoneyLoading: boolean = false
@@ -84,11 +87,19 @@ export class DashboardComponent {
         }
       });
 
-    this.accountService.getLatestTopUp()
+    this.accountService.fetchLatestTransaction(TransactionType.DEPOSIT)
+      .then(docsData => {
+        let transaction =  docsData.body[0].data()
+        this.topUpLatest = transaction.amount
+        this.topUpLatestBalance = transaction.balance
+      })
+
+    this.accountService.fetchLatestTransaction(TransactionType.WITHDRAW)
     .then(docsData => {
-      let transaction =  docsData.body[0].data()
-      this.topUpLatest = transaction.amount
-    })
+        let transaction =  docsData.body[0].data()
+        this.withdrawLatest = transaction.amount
+        this.withdrawLatestBalance = transaction.balance
+      })
 
   }
 
@@ -115,6 +126,7 @@ export class DashboardComponent {
   withdrawAccount = async (e: SubmitEvent) => {
     e.preventDefault()
     this.withdrawLoading = true
+    await this.accountService.withdrawBalance(this.withdrawAmount!!)
     await delay()
     this.fetchUserData()
     this.withdrawLoading = false
