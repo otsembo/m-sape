@@ -6,6 +6,7 @@ import {delay, logout} from "../../../utils/app";
 import {userAccountSnapshot, userSnapshot} from "../../data/firebase/app_db";
 import {User} from "../../data/models/User";
 import {AccountService} from "../../data/services/account/account.service";
+import {AppResponse} from "../../data/models/AppResponse";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,16 +23,20 @@ export class DashboardComponent {
   topUpAmount: number|null = null
   topUpLatest: number = 0
   topUpLatestBalance: number = 0
+  topUpError?: string = undefined
 
   withdrawShown: boolean = false
   withdrawLoading: boolean = false
   withdrawAmount: number|null = null
   withdrawLatest: number = 0
   withdrawLatestBalance: number = 0
+  withdrawError?: string = undefined
 
   sendMoneyShown: boolean = false
   sendMoneyLoading: boolean = false
   sendMoneyAmount: number = 0.0
+  sendMoneyRecipient: string = ''
+  sendMoneyError?: AppResponse = undefined
 
 
   async toggleSelection(item: number): Promise<void> {
@@ -105,15 +110,18 @@ export class DashboardComponent {
 
   toggleTopUp = () => this.topUpShown = !this.topUpShown
   toggleSendMoney = () => this.sendMoneyShown =!this.sendMoneyShown
-  toggleWithdraw = () => {
-    this.withdrawShown = !this.withdrawShown
-  }
+  toggleWithdraw = () => this.withdrawShown = !this.withdrawShown
+
 
   onTopUp = (amount: string) => this.topUpAmount = parseFloat(amount)
   onWithdraw = (amount: string) => this.withdrawAmount = parseFloat(amount)
+  onSendMoney = (amount: string, email: string) => {
+    this.sendMoneyRecipient = email
+    this.sendMoneyAmount = parseFloat(amount)
+  }
 
 
-  updateAccountBalance = async (e: SubmitEvent) => {
+  topUpAccount = async (e: SubmitEvent) => {
     e.preventDefault()
     this.topUpLoading = true
     await this.accountService.updateBalance(this.topUpAmount!!)
@@ -132,5 +140,31 @@ export class DashboardComponent {
     this.withdrawLoading = false
     this.toggleWithdraw()
   }
+
+  sendMoney = async (e: SubmitEvent) => {
+    e.preventDefault()
+    console.log(this.sendMoneyRecipient, this.sendMoneyAmount)
+    this.sendMoneyLoading = true
+    await this.accountService
+      .sendMoney(this.sendMoneyAmount, this.sendMoneyRecipient)
+        .then(() => {
+          this.sendMoneyLoading = false
+          delay()
+          this.toggleSendMoney()
+          this.fetchUserData()
+        })
+        .catch(reason => {
+          this.sendMoneyLoading = false
+          this.sendMoneyError = {
+            status: 500,
+            message: 'failed',
+            body: reason
+          }
+          console.log(reason)
+        });
+
+
+  }
+
 
 }

@@ -16,9 +16,19 @@ export const createAccount = async (user: User)=> {
 
 // user
 const userRef = (uid: string) => doc(firebase.db, "users", uid);
+const emailAccRef = collection(firebase.db, "users")
+
+const findEmail = async (email: string) => {
+  let fetchQuery =
+    query(
+      emailAccRef,
+      where("email", "==", email),
+      where("uid", "!=", localStorage.getItem("uid"))
+    );
+  return await getDocs(fetchQuery)
+}
+
 export const userSnapshot  = async (uid: string) => await getDoc(userRef(uid));
-
-
 // account
 export const createBankAccount = async (uid: string) => {
   await setDoc(doc(firebase.db, "accounts", uid), {
@@ -101,14 +111,10 @@ export const fetchLatestAccountTransaction = async (uid: string, type: Transacti
   return await getDocs(fetchQuery)
 }
 
-export const fetchLatestWithdraw = async (uid: string) => {
-  let fetchQuery =
-    query(
-      transactionRefs,
-      where("uid", "==", uid),
-      where("type", "==", TransactionType.WITHDRAW),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-  return await getDocs(fetchQuery)
+export async function sendMoneyToUser(s: string, sendMoneyAmount: number, email: string) {
+  const x = await findEmail(email)
+  if(x.docs.length == 0) {
+    throw new Error(`You cannot send money to ${email}! Please try again with a different email`)
+  }
+  return Promise.resolve(undefined);
 }

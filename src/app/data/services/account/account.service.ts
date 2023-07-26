@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import {AppResponse} from "../../models/AppResponse";
-import {fetchLatestAccountTransaction, fetchLatestTopUp, topUpAccount, withdrawAccount} from "../../firebase/app_db";
+import {
+  fetchLatestAccountTransaction,
+  fetchLatestTopUp,
+  sendMoneyToUser,
+  topUpAccount,
+  withdrawAccount
+} from "../../firebase/app_db";
 import {TransactionType} from "../../models/transaction";
 
 @Injectable({
@@ -47,4 +53,7 @@ export class AccountService {
     })
   }
 
+  async sendMoney(sendMoneyAmount: number, email: string) {
+    return await sendMoneyToUser(localStorage.getItem("uid")!!, sendMoneyAmount, email)
+  }
 }
