@@ -1,20 +1,20 @@
-<div class="w-full flex flex-row h-[98vh] bg-[#f9f9f8]">
+<div class="lg:w-full flex flex-row lg:h-full bg-[#f9f9f8] justify-start">
 
-  <div class="flex flex-col w-1/4 h-full bg-teal-800 p-[2vh] m-2 rounded-2xl shadow-2xl">
+  <div class="lg:flex hidden flex-col lg:w-1/4 h-[100vh] bg-teal-800 p-[2vh] shadow-2xl">
 
-    <img ngSrc="assets/images/ic_grid.png" class="mx-4 mt-16" height="96" width="96"/>
+    <img ngSrc="assets/images/ic_grid.png" class="lg:mx-4 mt-16 lg:flex hidden" height="96" width="96"/>
 
     <!--banner header-->
     <div class="bg-teal-600 flex flex-row px-8 mx-4 py-4 rounded-xl mt-4 items-center shadow-xl">
       <img width="96" height="96" src="https://images.pexels.com/photos/1432238/pexels-photo-1432238.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-           alt="businesswoman" class="shadow w-[96px] h-[96px] rounded-full max-w-full align-middle border-2 border-white object-cover"/>
+           alt="businesswoman" class="hidden lg:flex shadow w-[96px] h-[96px] rounded-full max-w-full align-middle border-2 border-white object-cover"/>
       <div class="flex flex-col h-full ml-4 align-middle justify-center">
         <h1 class="text-gray-100 text-2xl font-bold" formatEmail>{{user?.email ? user?.email?.substring(0, 15) + '...' : 'loading ...'}}</h1>
         <h2 class="text-gray-200 text-lg font-light">{{user?.phone}}</h2>
       </div>
     </div>
 
-    <div class="mt-8"></div>
+    <div class="lg:mt-8 mt-1"></div>
     <app-dashboard-menu-item
       [selected]="selectedItem == 1" title="Home" icon="https://img.icons8.com/material/96/FFFFFF/home-page.png"
       (click)="toggleSelection(1)">
@@ -30,12 +30,12 @@
       (click)="toggleSelection(3)">
     </app-dashboard-menu-item>
 
-    <app-dashboard-menu-item
+    <app-dashboard-menu-item class="mb-auto"
       [selected]="selectedItem == 4" title="Logout" icon="https://img.icons8.com/material/96/FFFFFF/exit.png"
       (click)="toggleSelection(4)">
     </app-dashboard-menu-item>
 
-    <div class="flex flex-row justify-start mx-4 mt-32 cursor-pointer">
+    <div class="flex flex-row justify-start mx-4 lg:mt-32 mt-8 cursor-pointer sticky bottom-0">
 
       <div class="bg-teal-600 px-6 py-5 rounded-lg border-2 border-dashed mx-2 shadow-lg">
         <span class="material-icons text-4xl text-white">add</span>
@@ -50,19 +50,19 @@
 
   </div>
 
-  <div class="flex flex-col w-3/4 h-full m-2 p-[2vh]">
+  <div class="flex flex-col lg:w-3/4 lg:h-full m-2 p-[2vh]">
     <app-dashboard-nav [email]="user?.email" [toggleSendMoney]="toggleSendMoney"></app-dashboard-nav>
-    <div class="justify-between flex flex-row mt-16 items-center">
-      <p class="text-gray-800 text-6xl font-bold">Overview</p>
+    <div class="justify-between flex lg:flex-row flex-col mt-8 lg:mt-16 items-center">
+      <p class="text-gray-800 text-6xl font-bold lg:flex hidden">Overview</p>
       <div class="flex flex-row items-center">
         <div class="rounded-full bg-green-600 w-2 h-2 mx-4"></div>
         <p class="text-gray-600 text-xl font-medium">Updated 5 mins ago</p>
       </div>
     </div>
 
-    <div class="flex flex-row w-full mt-16">
+    <div class="flex lg:flex-row flex-col lg:w-full mt-16">
 
-      <div class="flex flex-col w-1/2 p-2">
+      <div class="flex flex-col lg:w-1/2 p-2">
         <p class="text-gray-600 text-2xl font-medium">Today's Balance</p>
         <app-loader *ngIf="!accountBalance?.toLocaleString()"></app-loader>
         <p class="text-gray-800 text-7xl font-bold mt-4" *ngIf="accountBalance?.toLocaleString()">Ksh. {{accountBalance?.toLocaleString()}}</p>
@@ -84,7 +84,7 @@
 
       </div>
 
-      <div class="flex flex-col w-1/2 p-2">
+      <div class="flex flex-col lg:w-1/2 p-2">
 
         <div class="flex flex-row justify-between rounded-lg bg-white p-4 shadow-xl mr-16">
 
@@ -141,7 +141,7 @@
   </div>
 
   <div *ngIf="topUpShown" class="flex overflow-x-hidden bg-[#1818185F] overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center p-4">
-    <div class="relative w-auto my-6 mx-auto max-w-6xl">
+    <div class="relative lg:w-auto my-6 lg:mx-auto lg:max-w-6xl">
       <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
         <form class="p-8 flex flex-col" (submit)="topUpAccount($event)">
           <h1 class="text-4xl font-bold">TopUp Account</h1>
@@ -154,7 +154,7 @@
           </button>
 
         </form>
-        <button class="flex mt-2 p-3 w-[25vw] bg-red-800 text-white font-bold text-xl justify-center items-center rounded" (click)="toggleTopUp()">
+        <button class="flex mt-2 p-3 lg:w-[25vw] bg-red-800 text-white font-bold text-xl justify-center items-center rounded" (click)="toggleTopUp()">
             <span class="material-icons mr-2">close</span>CANCEL
         </button>
       </div>
@@ -180,7 +180,7 @@
 
         </form>
 
-        <button class="flex mt-2 p-3 w-[25vw] bg-red-800 text-white font-bold text-xl justify-center items-center" (click)="toggleWithdraw()">
+        <button class="flex mt-2 p-3 lg:w-[25vw] bg-red-800 text-white font-bold text-xl justify-center items-center" (click)="toggleWithdraw()">
             <span class="material-icons mr-2">close</span>CANCEL
         </button>
 
@@ -210,7 +210,7 @@
             <span class="material-icons mr-2">send</span> SEND
           </button>
         </form>
-        <button class="flex mt-2 p-3 bg-red-800 w-[25vw] text-white font-bold text-xl justify-center items-center" (click)="toggleSendMoney()">
+        <button class="flex mt-2 p-3 bg-red-800 lg:w-[25vw] text-white font-bold text-xl justify-center items-center" (click)="toggleSendMoney()">
             <span class="material-icons mr-2">close</span>CANCEL
           </button>
       </div>

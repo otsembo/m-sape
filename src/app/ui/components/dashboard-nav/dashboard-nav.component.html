@@ -1,9 +1,9 @@
-<nav class="flex flex-row justify-between items-center">
+<nav class="flex lg:flex-row w-full flex-col lg:justify-between justify-center items-center">
   <app-loader *ngIf="!email"></app-loader>
   <div *ngIf="email">
     <h1 class="text-xl">Welcome, <p class="italic font-bold text-2xl">{{email}}</p></h1>
   </div>
-  <div class="items-center flex flex-row">
+  <div class="items-center flex flex-row mt-4 lg:mt-0">
     <span class="material-icons text-gray-500 text-4xl mx-2">settings</span>
     <span class="material-icons text-blue-700 animate-pulse text-4xl mx-2">notifications</span>
     <span class="material-icons text-gray-500 text-4xl mx-2">paid</span>
