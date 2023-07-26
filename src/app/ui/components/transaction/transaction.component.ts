@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {Transaction, TransactionType} from "../../../data/models/transaction";
 
+
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',

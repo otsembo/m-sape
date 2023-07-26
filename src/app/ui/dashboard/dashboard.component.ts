@@ -132,7 +132,7 @@ export class DashboardComponent {
               partyA: transaction['partyA'],
               partyB: transaction['partyB'],
               amount: transaction['amount'],
-              date: transaction['date'],
+              date: transaction['date'].toDate().toLocaleString(),
               type: transaction['type']
             }
           })
