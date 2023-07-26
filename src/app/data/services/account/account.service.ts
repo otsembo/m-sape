@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {AppResponse} from "../../models/AppResponse";
 import {
   fetchLatestAccountTransaction,
-  fetchLatestTopUp,
+  fetchLatestTopUp, fetchMoneyExchanges,
   sendMoneyToUser,
   topUpAccount,
   withdrawAccount
@@ -56,4 +56,9 @@ export class AccountService {
   async sendMoney(sendMoneyAmount: number, email: string) {
     return await sendMoneyToUser(localStorage.getItem("uid")!!, sendMoneyAmount, email)
   }
+
+  async fetchLatestTransfers() {
+    return await fetchMoneyExchanges(localStorage.getItem("uid")!!)
+  }
+
 }

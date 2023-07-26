@@ -60,6 +60,8 @@ export class DashboardComponent {
     if(item == 4) await logout(this.router)
   }
 
+  latestTransfers: Transaction[] = []
+
   sampleTransaction: Transaction = {
     from: "bingo@mail.com",
     partyA: "bingo@mail.com",
@@ -118,6 +120,23 @@ export class DashboardComponent {
         let transaction =  docsData.body[0].data()
         this.withdrawLatest = transaction.amount
         this.withdrawLatestBalance = transaction.balance
+      })
+
+    this.accountService.fetchLatestTransfers()
+      .then(async query => {
+        if(query.docs.length > 0){
+          this.latestTransfers = query.docs.map(doc => {
+            let transaction = doc.data()
+            return {
+              from: transaction['from'],
+              partyA: transaction['partyA'],
+              partyB: transaction['partyB'],
+              amount: transaction['amount'],
+              date: transaction['date'],
+              type: transaction['type']
+            }
+          })
+        }
       })
 
   }

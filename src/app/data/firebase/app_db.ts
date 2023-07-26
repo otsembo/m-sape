@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDoc, getDocs, addDoc, query, where, orderBy, limit } from "firebase/firestore"
+import { collection, doc, setDoc, getDoc, getDocs, addDoc, query, where, orderBy, limit, or, and } from "firebase/firestore"
 import firebase from "../../../utils/firebase";
 import {User} from "../models/User";
 import {Transaction, TransactionType} from "../models/transaction";
@@ -40,6 +40,7 @@ export const createBankAccount = async (uid: string) => {
 }
 
 const userAccountRef = (uid: string) => doc(firebase.db, "accounts", uid)
+const userDataRef = (uid: string) => doc(firebase.db, "users", uid)
 export const userAccountSnapshot  = async (uid: string) => await getDoc(userAccountRef(uid));
 
 export const topUpAccount = async (uid: string, amount: number) => {
@@ -115,7 +116,9 @@ export const fetchLatestAccountTransaction = async (uid: string, type: Transacti
 export async function sendMoneyToUser(uid: string, sendMoneyAmount: number, email: string) {
   const partyB = await findEmail(email)
   const partyA= await userAccountSnapshot(uid)
+  const partyAData = await getDoc(userDataRef(uid));
   const partyBAccount = await userAccountSnapshot(partyB.docs[0].data()?.["uid"])
+
   if(partyB.docs.length == 0) {
     throw new Error(`You cannot send money to ${email}! Please try again with a different email`)
   }
@@ -134,7 +137,7 @@ export async function sendMoneyToUser(uid: string, sendMoneyAmount: number, emai
   await addNewTransaction({
     from: uid,
     partyA: uid,
-    partyB: partyB.docs[0].data()?.["uid"],
+    partyB: partyB.docs[0].data()?.["email"],
     amount: sendAmount,
     date: new Date(),
     type: TransactionType.TRANSFER,
@@ -153,12 +156,29 @@ export async function sendMoneyToUser(uid: string, sendMoneyAmount: number, emai
   await addNewTransaction({
     from: uid,
     partyA: partyB.docs[0].data()?.["uid"],
-    partyB: uid,
+    partyB: partyAData.data()?.["email"],
     amount: sendAmount,
     date: new Date(),
     type: TransactionType.RECEIVE,
     balance: partyBAccount.data()?.["balance"] + sendAmount
   }, partyB.docs[0].data()?.["uid"]!!)
 
-  return Promise.resolve(undefined);
+}
+
+// money exchanges
+export const fetchMoneyExchanges = async (uid: string) => {
+  let fetchQuery =
+    query(
+      transactionRefs,
+      and(
+        where("uid", "==", uid),
+        or(
+          where("type", "==", TransactionType.RECEIVE),
+          where("type", "==", TransactionType.TRANSFER),
+          ),
+      ),
+      orderBy("date", "desc"),
+      limit(3)
+    );
+  return await getDocs(fetchQuery)
 }

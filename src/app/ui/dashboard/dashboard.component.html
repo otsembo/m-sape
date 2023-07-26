@@ -79,8 +79,7 @@
         <p class="font-medium text-xl text-gray-500 mt-2">Recent transactions</p>
 
         <div class="mt-8">
-          <app-transaction [transaction]="sampleTransaction"></app-transaction>
-          <app-transaction [transaction]="sampleTransaction2"></app-transaction>
+          <app-transaction *ngFor="let transaction of latestTransfers" [transaction]="transaction"></app-transaction>
         </div>
 
       </div>

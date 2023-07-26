@@ -4,16 +4,16 @@
       <p class="text-white font-bold text-2xl">{{transaction ? transaction.from.substring(0,1).toUpperCase() : "$"}}</p>
     </div>
     <div class="mx-4 flex-col justify-items-center">
-      <p class="font-bold text-2xl">{{transaction?.from}}</p>
-      <p class="font-light text-lg">{{transaction?.date?.toLocaleString()}}</p>
+      <p class="font-bold text-2xl">{{transaction?.partyB}}</p>
+      <p class="font-light text-lg">{{transaction?.date}}</p>
     </div>
   </div>
-  <div class="flex flex-row items-center {{transaction?.from == transaction?.partyA ? 'bg-red-400' : 'bg-green-300'}} p-2 rounded-lg">
-    <span class="material-icons text-2xl {{transaction?.from == transaction?.partyA ? 'text-red-950' : 'text-green-950'}}">
-      {{transaction?.from == transaction?.partyA ? 'keyboard_double_arrow_down' : 'keyboard_double_arrow_up'}}
+  <div class="flex flex-row items-center {{transaction?.type == TransactionType.TRANSFER ? 'bg-red-400' : 'bg-green-300'}} p-2 rounded-lg">
+    <span class="material-icons text-2xl mr-2 {{transaction?.type == TransactionType.TRANSFER ? 'text-red-950' : 'text-green-950'}}">
+      {{transaction?.type == TransactionType.TRANSFER ? 'do_not_disturb_on' : 'add'}}
     </span>
-    <p class="text-xl {{transaction?.from == transaction?.partyA ? 'text-red-950' : 'text-green-950'}}">
-      Ksh. 1,200
+    <p class="text-xl w-[120px] {{transaction?.type == TransactionType.TRANSFER ? 'text-red-950' : 'text-green-950'}}">
+      Ksh. {{transaction?.amount?.toLocaleString()}}
     </p>
   </div>
 </div>
