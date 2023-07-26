@@ -1,19 +1,19 @@
-<nav class="flex flex-row justify-between mt-4 px-10 w-[100vw] items-center">
+<nav class="flex flex-row justify-between mt-4 px-10 w-[100%] items-center">
 
-  <div class="flex flex-column">
+  <div class="flex flex-col md:w-[30%] w-[50%]">
     <h2 class="text-4xl cursor-pointer" routerLink="/">M-Sape</h2>
   </div>
 
-  <div class="columns-4 justify-between w-[40%]">
+  <div class="hidden md:flex columns-4 justify-between w-[40%]">
     <h2 class="text-xl cursor-pointer">Service</h2>
     <h2 class="text-xl cursor-pointer">How It Works</h2>
     <h2 class="text-xl cursor-pointer">Benefits</h2>
     <h2 class="text-xl cursor-pointer">Pricing</h2>
   </div>
 
-  <div class="columns-2 flex flex-column">
-    <button class="p-[20px] rounded-2xl text-teal-800 border-2 border-teal-800 mx-1 w-[150px] hover:border-0 hover:bg-teal-800 hover:text-white" routerLink="auth">Sign Up</button>
-    <button class="bg-teal-800 text-white p-[20px] rounded-2xl mx-1 w-[150px] hover:border-2 hover:bg-transparent hover:border-teal-800 hover:text-teal-800" routerLink="auth">Login</button>
+  <div class="md:columns-2 flex flex-row md:w-[30%] w-[50%] justify-end">
+    <button class="p-[20px] rounded-2xl text-teal-800 border-2 border-teal-800 my-1 md:mt-0 mx-1 md:w-[150px] hover:border-0 hover:bg-teal-800 hover:text-white" routerLink="auth">Sign Up</button>
+    <button class="bg-teal-800 text-white p-[20px] rounded-2xl mx-1 md:w-[150px] hover:border-2 hover:bg-transparent hover:border-teal-800 hover:text-teal-800" routerLink="auth">Login</button>
   </div>
 
 </nav>
