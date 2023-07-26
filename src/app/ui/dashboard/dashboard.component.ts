@@ -20,6 +20,7 @@ export class DashboardComponent {
   topUpShown: boolean = false
   topUpLoading: boolean = false
   topUpAmount: number|null = null
+  topUpLatest: number = 0
 
   sendMoneyShown: boolean = false
   sendMoneyLoading: boolean = false
@@ -30,7 +31,7 @@ export class DashboardComponent {
     this.selectedItem = item;
     await delay();
     removeUser();
-    await logout(this.router)
+    if(item == 4) await logout(this.router)
   }
 
   sampleTransaction: Transaction = {
@@ -78,6 +79,12 @@ export class DashboardComponent {
           this.accountBalance = userSnap["balance"]
         }
       });
+
+    this.accountService.getLatestTopUp()
+    .then(docsData => {
+      let transaction =  docsData.body[0].data()
+      this.topUpLatest = transaction.amount
+    })
 
   }
 

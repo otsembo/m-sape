@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDoc, addDoc } from "firebase/firestore"
+import { collection, doc, setDoc, getDoc, getDocs, addDoc, query, where, orderBy, limit } from "firebase/firestore"
 import firebase from "../../../utils/firebase";
 import {User} from "../models/User";
 import {Transaction, TransactionType} from "../models/transaction";
@@ -56,4 +56,16 @@ export const addNewTransaction = async (transaction: Transaction, uid: string) =
     uid: uid
   })
 }
-const transactionRef = async (uid: string) => doc(firebase.db, "transaction", uid);
+
+const transactionRefs = collection(firebase.db, "transactions");
+export const fetchLatestTopUp = async (uid: string) => {
+  let fetchQuery =
+    query(
+      transactionRefs,
+      where("uid", "==", uid),
+      where("type", "==", TransactionType.DEPOSIT),
+      orderBy("date", "desc"),
+      limit(1)
+    );
+  return await getDocs(fetchQuery)
+}
