@@ -22,6 +22,10 @@ export class DashboardComponent {
   topUpAmount: number|null = null
   topUpLatest: number = 0
 
+  withdrawShown: boolean = false
+  withdrawLoading: boolean = false
+  withdrawAmount: number|null = null
+
   sendMoneyShown: boolean = false
   sendMoneyLoading: boolean = false
   sendMoneyAmount: number = 0.0
@@ -90,8 +94,13 @@ export class DashboardComponent {
 
   toggleTopUp = () => this.topUpShown = !this.topUpShown
   toggleSendMoney = () => this.sendMoneyShown =!this.sendMoneyShown
+  toggleWithdraw = () => {
+    this.withdrawShown = !this.withdrawShown
+  }
 
   onTopUp = (amount: string) => this.topUpAmount = parseFloat(amount)
+  onWithdraw = (amount: string) => this.withdrawAmount = parseFloat(amount)
+
 
   updateAccountBalance = async (e: SubmitEvent) => {
     e.preventDefault()
@@ -101,6 +110,15 @@ export class DashboardComponent {
     this.fetchUserData()
     this.topUpLoading = false
     this.toggleTopUp()
+  }
+
+  withdrawAccount = async (e: SubmitEvent) => {
+    e.preventDefault()
+    this.withdrawLoading = true
+    await delay()
+    this.fetchUserData()
+    this.withdrawLoading = false
+    this.toggleWithdraw()
   }
 
 }
